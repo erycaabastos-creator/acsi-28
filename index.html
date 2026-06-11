@@ -8,21 +8,17 @@
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:#F8F4EC;min-height:100vh}
 :root{--cr:#F8F4EC;--cr2:#EEE8DA;--vd:#304E38;--sg:#8CA591;--do:#C0A258}
-.screen{max-width:560px;margin:0 auto;padding:1.5rem 1rem}
+.screen{max-width:540px;margin:0 auto;padding:1.5rem 1rem}
 .header{background:var(--vd);border-radius:12px;padding:1.25rem 1.5rem;margin-bottom:1.5rem}
 .header .sub{color:var(--do);font-size:11px;font-weight:600;letter-spacing:1px;text-transform:uppercase}
 .header h1{color:#F8F4EC;font-size:20px;font-weight:500;margin-top:4px}
 .header p{color:#8CA591;font-size:12px;margin-top:6px;line-height:1.5}
 .back{background:none;border:none;color:#8CA591;font-size:13px;cursor:pointer;margin:1rem 0 0 1rem;display:block}
-input[type=text]{width:100%;padding:10px 12px;border-radius:8px;border:1px solid var(--cr2);font-size:15px;background:var(--cr);font-family:inherit;margin-bottom:1.25rem}
+input[type=text],input[type=password],select{width:100%;padding:10px 12px;border-radius:8px;border:1px solid var(--cr2);font-size:15px;background:var(--cr);font-family:inherit;margin-bottom:1rem;color:var(--vd)}
 label.fl{font-size:13px;color:#666;display:block;margin-bottom:6px}
-
-/* progresso */
 .prog-bar{height:5px;background:var(--cr2);border-radius:3px;margin-bottom:1.25rem;overflow:hidden}
 .prog-fill{height:100%;background:var(--vd);border-radius:3px;transition:width .3s}
 .prog-label{font-size:11px;color:#999;text-align:right;margin-bottom:6px}
-
-/* questão */
 .qcard{background:#fff;border:1px solid var(--cr2);border-radius:12px;padding:1.25rem;margin-bottom:1rem}
 .qnum{font-size:11px;color:var(--do);font-weight:600;text-transform:uppercase;letter-spacing:1px;margin-bottom:6px}
 .qtext{font-size:14px;font-weight:500;color:var(--vd);margin-bottom:14px;line-height:1.5}
@@ -31,123 +27,172 @@ label.fl{font-size:13px;color:#666;display:block;margin-bottom:6px}
 .scale-btn.on{background:var(--vd);color:#F8F4EC;border-color:var(--vd)}
 .scale-labels{display:flex;justify-content:space-between;margin-top:6px}
 .scale-labels span{font-size:10px;color:#999}
-
-/* navegação */
 .nav-row{display:flex;gap:10px;margin-top:1rem}
 .btn-p{flex:1;padding:13px;background:var(--vd);color:#F8F4EC;border:none;border-radius:10px;font-size:15px;font-weight:500;cursor:pointer}
 .btn-s{padding:13px 20px;border-radius:10px;border:1px solid var(--cr2);background:var(--cr);color:var(--vd);font-size:15px;cursor:pointer}
+.btn-danger{padding:7px 14px;border-radius:8px;border:1px solid #fcc;background:#fff5f5;color:#c0392b;font-size:13px;cursor:pointer}
 .err{color:#c0392b;font-size:13px;margin-top:8px}
-
-/* resultado */
-.result-header{background:var(--vd);border-radius:12px;padding:1.5rem;margin-bottom:1.25rem;text-align:center}
-.result-header .nome{color:var(--do);font-size:13px;font-weight:500}
-.result-header .total{color:#F8F4EC;font-size:42px;font-weight:300;margin:8px 0 4px}
-.result-header .nivel{color:#8CA591;font-size:13px}
-.result-header .nivel span{color:#F8F4EC;font-weight:600}
-
-.radar-wrap{background:#fff;border:1px solid var(--cr2);border-radius:12px;padding:1rem;margin-bottom:1.25rem}
-canvas{display:block;margin:0 auto}
-
-.sub-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:1.25rem}
-.sub-card{background:#fff;border:1px solid var(--cr2);border-radius:10px;padding:.75rem}
-.sub-card .slabel{font-size:10px;color:#999;text-transform:uppercase;letter-spacing:.8px;margin-bottom:4px}
-.sub-card .sval{font-size:20px;font-weight:600;color:var(--vd)}
-.sub-card .sbar{height:5px;background:var(--cr2);border-radius:3px;margin-top:6px;overflow:hidden}
-.sub-card .sbfill{height:100%;border-radius:3px}
-
-.interp{background:var(--cr);border:1px solid var(--cr2);border-radius:10px;padding:1rem;margin-bottom:1rem;font-size:13px;color:#555;line-height:1.6}
-.interp strong{color:var(--vd)}
+.ok-screen{min-height:60vh;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;padding:2rem;text-align:center}
+.ok-circle{width:56px;height:56px;border-radius:50%;background:var(--vd);display:flex;align-items:center;justify-content:center;font-size:28px;color:#F8F4EC}
+.senha-box{max-width:360px;margin:4rem auto;padding:2rem 1.5rem;background:#fff;border:1px solid var(--cr2);border-radius:16px;text-align:center}
+.senha-box h2{color:var(--vd);font-size:20px;font-weight:500;margin-bottom:6px}
+.senha-box p{color:#999;font-size:13px;margin-bottom:1.5rem}
+.mgrid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:1.25rem}
+.mcard{background:var(--cr);border:1px solid var(--cr2);border-radius:10px;padding:.75rem 1rem}
+.mcard .ml{font-size:11px;color:#999;text-transform:uppercase;letter-spacing:.8px;margin-bottom:4px}
+.mcard .mv{font-size:22px;font-weight:500;color:var(--vd)}
+.dlabel{font-size:12px;font-weight:500;color:var(--sg);text-transform:uppercase;letter-spacing:1px;margin:0 0 8px}
+.acard{background:#fff;border:1px solid var(--cr2);border-radius:10px;padding:.75rem 1.25rem;margin-bottom:8px;cursor:pointer}
+.aname{font-weight:500;font-size:14px;color:var(--vd)}
+.asub{font-size:11px;color:#999}
+.av{width:32px;height:32px;border-radius:50%;background:var(--vd);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.av span{color:#F8F4EC;font-size:12px;font-weight:500}
+.detail{margin-top:12px;padding-top:12px;border-top:1px solid var(--cr2)}
+.brow{display:flex;align-items:center;gap:8px;margin-bottom:6px}
+.blabel{font-size:12px;color:#999;width:160px;flex-shrink:0}
+.btrack{flex:1;height:6px;background:var(--cr2);border-radius:3px;overflow:hidden}
+.bfill{height:100%;border-radius:3px}
+.bval{font-size:13px;font-weight:500;color:var(--vd);width:36px;text-align:right}
+.radar-wrap{background:#fff;border:1px solid var(--cr2);border-radius:12px;padding:1rem;margin-bottom:1rem}
+.frow{display:flex;gap:8px;margin-bottom:1.25rem;flex-wrap:wrap}
+.fbtn{padding:6px 14px;border-radius:20px;font-size:13px;cursor:pointer;border:1px solid var(--cr2);background:var(--cr);color:var(--vd)}
+.fbtn.on{background:var(--vd);color:#F8F4EC;border-color:var(--vd);font-weight:500}
+.dh{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.25rem;flex-wrap:wrap;gap:8px}
+.empty{text-align:center;padding:3rem 0;color:#bbb;font-size:14px;line-height:1.8}
+.loading{text-align:center;padding:2rem;color:#999;font-size:14px}
+.legend{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:1rem}
+.legend-item{display:flex;align-items:center;gap:5px;font-size:11px;color:#555}
+.legend-dot{width:8px;height:8px;border-radius:50%}
+.pill{display:inline-block;min-width:44px;text-align:center;padding:2px 8px;border-radius:20px;font-weight:500;font-size:12px}
+.pok{background:#27ae6022;color:#27ae60}
+.pmid{background:#C0A25822;color:#C0A258}
+.pbad{background:#e74c3c22;color:#e74c3c}
+.interp-box{background:var(--cr);border:1px solid var(--cr2);border-radius:10px;padding:1rem;margin-bottom:1rem;font-size:13px;color:#555;line-height:1.6}
 .btn-print{display:flex;align-items:center;justify-content:center;gap:6px;width:100%;padding:12px;border-radius:10px;border:1px solid var(--cr2);background:#fff;color:var(--vd);font-size:14px;cursor:pointer;margin-bottom:10px}
-.btn-novo{width:100%;padding:12px;background:var(--vd);color:#F8F4EC;border:none;border-radius:10px;font-size:14px;cursor:pointer}
-
-@media print{.back,.btn-print,.btn-novo,.nav-row{display:none}}
+@media print{.back,.btn-print,.nav-row,.dh,.frow{display:none}body{background:#fff}}
 </style>
 </head>
 <body>
 <div id="app"></div>
-<script>
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import { getDatabase, ref, push, onValue, remove } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
+
+const cfg = {
+  apiKey:"AIzaSyBnDWZGibFps54OpFKHdq1VYZOFj6qJGqY",
+  authDomain:"checkin---pre-jogo.firebaseapp.com",
+  databaseURL:"https://checkin---pre-jogo-default-rtdb.firebaseio.com",
+  projectId:"checkin---pre-jogo",
+  storageBucket:"checkin---pre-jogo.firebasestorage.app",
+  messagingSenderId:"850423983845",
+  appId:"1:850423983845:web:0613938dc4e5fb2973ae0c"
+};
+
+const SENHA = "eryca2025";
+const fb = initializeApp(cfg);
+const db = getDatabase(fb);
+
 const ITEMS = [
-  "1) Diariamente ou semanalmente eu estabeleço metas muito específicas que me guiam no que fazer.",
-  "2) Eu tiro o maior proveito dos meus talentos e habilidades.",
-  "3) Quando o treinador ou técnico me diz como corrigir um erro que eu tenha cometido eu tenho tendência a ficar aborrecido/incomodado.",
-  "4) Quando estou praticando esporte, eu consigo focar minha atenção e bloquear distrações.",
-  "5) Eu permaneço positivo e entusiasmado durante a competição, não importa como a situação esteja.",
-  "6) Minha tendência é competir melhor sob pressão, pois eu penso mais claramente.",
-  "7) Eu me preocupo um pouco sobre o que as pessoas pensam sobre meu desempenho.",
-  "8) Tenho tendência a fazer muitos planos sobre como atingir minhas metas.",
-  "9) Eu sinto confiança de que irei competir bem.",
-  "10) Quando um técnico ou treinador me critica, eu fico aborrecido/incomodado ao invés de me sentir ajudado.",
-  "11) É fácil me manter concentrado em uma tarefa mesmo quando estou assistindo ou ouvindo algo.",
-  "12) Eu me pressiono muito ao me preocupar como será meu desempenho.",
-  "13) Eu estabeleço minhas próprias metas de desempenho para cada prática.",
-  "14) Eu não necessito que me recomendem a praticar ou competir duro. Eu dou 100%.",
-  "15) Se um técnico me criticar ou gritar comigo, eu corrijo o erro sem ficar aborrecido/incomodado com isso.",
-  "16) Eu lido com situações inesperadas no meu esporte muito bem.",
-  "17) Quando as coisas estão ruins, eu digo a mim mesmo para ficar calmo e isso funciona pra mim.",
-  "18) Quanto mais pressão houver na competição, mais eu gosto.",
-  "19) Durante as competições eu me preocupo se vou cometer erros ou não vou conseguir ir até o fim.",
-  "20) Eu tenho meu plano de competição completamente estruturado na minha mente muito antes de começar.",
-  "21) Quando eu sinto que estou ficando muito tenso, eu posso rapidamente relaxar meu corpo e me acalmar.",
-  "22) Para mim, situações sobre pressão são desafios que eu recebo bem.",
-  "23) Eu penso e imagino sobre o que irá acontecer se eu falhar ou estragar tudo.",
-  "24) Eu mantenho o controle emocional, não importa como as coisas estão indo comigo.",
-  "25) Para mim, é fácil direcionar minha atenção e focar em um único objeto ou pessoa.",
-  "26) Quando falho em minhas metas, isso me faz tentar ainda mais.",
-  "27) Eu aperfeiçoo minhas habilidades escutando cuidadosamente aos conselhos e instruções dos técnicos e treinadores.",
-  "28) Eu cometo menos erros quando estou sob pressão porque me concentro melhor."
+  "Diariamente ou semanalmente eu estabeleço metas muito específicas que me guiam no que fazer.",
+  "Eu tiro o maior proveito dos meus talentos e habilidades.",
+  "Quando o treinador ou técnico me diz como corrigir um erro que eu tenha cometido eu tenho tendência a ficar aborrecido/incomodado.",
+  "Quando estou praticando esporte, eu consigo focar minha atenção e bloquear distrações.",
+  "Eu permaneço positivo e entusiasmado durante a competição, não importa como a situação esteja.",
+  "Minha tendência é competir melhor sob pressão, pois eu penso mais claramente.",
+  "Eu me preocupo um pouco sobre o que as pessoas pensam sobre meu desempenho.",
+  "Tenho tendência a fazer muitos planos sobre como atingir minhas metas.",
+  "Eu sinto confiança de que irei competir bem.",
+  "Quando um técnico ou treinador me critica, eu fico aborrecido/incomodado ao invés de me sentir ajudado.",
+  "É fácil me manter concentrado em uma tarefa mesmo quando estou assistindo ou ouvindo algo.",
+  "Eu me pressiono muito ao me preocupar como será meu desempenho.",
+  "Eu estabeleço minhas próprias metas de desempenho para cada prática.",
+  "Eu não necessito que me recomendem a praticar ou competir duro. Eu dou 100%.",
+  "Se um técnico me criticar ou gritar comigo, eu corrijo o erro sem ficar aborrecido/incomodado com isso.",
+  "Eu lido com situações inesperadas no meu esporte muito bem.",
+  "Quando as coisas estão ruins, eu digo a mim mesmo para ficar calmo e isso funciona pra mim.",
+  "Quanto mais pressão houver na competição, mais eu gosto.",
+  "Durante as competições eu me preocupo se vou cometer erros ou não vou conseguir ir até o fim.",
+  "Eu tenho meu plano de competição completamente estruturado na minha mente muito antes de começar.",
+  "Quando eu sinto que estou ficando muito tenso, eu posso rapidamente relaxar meu corpo e me acalmar.",
+  "Para mim, situações sobre pressão são desafios que eu recebo bem.",
+  "Eu penso e imagino sobre o que irá acontecer se eu falhar ou estragar tudo.",
+  "Eu mantenho o controle emocional, não importa como as coisas estão indo comigo.",
+  "Para mim, é fácil direcionar minha atenção e focar em um único objeto ou pessoa.",
+  "Quando falho em minhas metas, isso me faz tentar ainda mais.",
+  "Eu aperfeiçoo minhas habilidades escutando cuidadosamente aos conselhos e instruções dos técnicos e treinadores.",
+  "Eu cometo menos erros quando estou sob pressão porque me concentro melhor."
 ];
 
-// Subescalas: [nome, itens (1-based), itens_invertidos (1-based)]
-const SUBSCALAS = [
-  { nome:"Desempenho sob Pressão", itens:[6,18,22,28], inv:[] },
-  { nome:"Lidar com Adversidades", itens:[5,17,21,24], inv:[] },
-  { nome:"Metas/Preparação Mental", itens:[1,8,13,20],  inv:[] },
-  { nome:"Livre de Preocupação",    itens:[7,12,19,23], inv:[7,12,19,23] },
-  { nome:"Concentração",            itens:[4,11,25,28], inv:[] },
-  { nome:"Treinabilidade",          itens:[3,10,15,27], inv:[3,10] },
-  { nome:"Motivação e Confiança",   itens:[2,9,14,26],  inv:[] },
+const SUBS = [
+  {nome:"Desempenho sob Pressão", itens:[6,18,22,28], inv:[]},
+  {nome:"Lidar com Adversidades",  itens:[5,17,21,24], inv:[]},
+  {nome:"Metas/Preparação Mental", itens:[1,8,13,20],  inv:[]},
+  {nome:"Livre de Preocupação",    itens:[7,12,19,23], inv:[7,12,19,23]},
+  {nome:"Concentração",            itens:[4,11,25,28], inv:[]},
+  {nome:"Treinabilidade",          itens:[3,10,15,27], inv:[3,10]},
+  {nome:"Motivação e Confiança",   itens:[2,9,14,26],  inv:[]},
 ];
+
+const INTERPS = {
+  "Desempenho sob Pressão":"Avalia o quanto o atleta tende a se sentir mais desafiado do que ameaçado nas situações de pressão competitiva.",
+  "Lidar com Adversidades":"Avalia o quanto o atleta tende a se manter positivo e calmo, recuperando-se rapidamente dos erros e contratempos.",
+  "Metas/Preparação Mental":"Avalia o quanto o atleta trabalha guiado por metas específicas, construindo planos de ação e se preparando mentalmente.",
+  "Livre de Preocupação":"Avalia o quanto o atleta tende a não alimentar preocupações desnecessárias em relação ao desempenho.",
+  "Concentração":"Avalia o quanto o atleta tende a se manter focado na tarefa, bloqueando distrações internas e externas.",
+  "Treinabilidade":"Avalia a abertura do atleta ao aprendizado, lidando bem com críticas construtivas e instruções.",
+  "Motivação e Confiança":"Avalia o quanto o atleta confia em suas capacidades e persevera frente a situações negativas.",
+};
 
 const CORES = ["#304E38","#C0A258","#8CA591","#5d8a6e","#a07c3e","#4a7a5e","#b08040"];
 
 // estado
-let view = "intro"; // intro | quiz | result
-let nomeAtleta = "", catAtleta = "";
-let respostas = new Array(28).fill(null);
-let questaoAtual = 0;
-let errMsg = "";
+let view="home", nm="", cat="", respostas=new Array(28).fill(null), q=0, errMsg="";
+let entries=[], loaded=false, exp=null, senhaErr="", selAtleta="", filtroAtleta="Todos";
 
-function calcular() {
-  const scores = SUBSCALAS.map(sub => {
-    const soma = sub.itens.reduce((acc, i) => {
-      const r = respostas[i-1];
-      const val = sub.inv.includes(i) ? 3 - r : r;
-      return acc + val;
-    }, 0);
-    const pct = Math.round((soma / 12) * 100);
-    return { nome: sub.nome, soma, pct };
+onValue(ref(db,"acsi28"), snap=>{
+  entries=[];
+  if(snap.exists()) snap.forEach(c=>{ const v=c.val(); if(v&&v.name) entries.push({_k:c.key,...v}); });
+  loaded=true; render();
+});
+
+const ini=n=>n.trim().split(" ").map(w=>w[0]).filter(Boolean).slice(0,2).join("").toUpperCase();
+const pc=v=>v>=75?"pill pok":v>=50?"pill pmid":"pill pbad";
+const bc=v=>v>=75?"#27ae60":v>=50?"#C0A258":"#e74c3c";
+
+function calcular(resp){
+  const scores = SUBS.map(sub=>{
+    const soma = sub.itens.reduce((acc,i)=>{
+      const r = resp[i-1];
+      const val = sub.inv.includes(i) ? 3-r : r;
+      return acc+val;
+    },0);
+    return {nome:sub.nome, soma, pct:Math.round((soma/12)*100)};
   });
-  const totalSoma = scores.reduce((a,s) => a+s.soma, 0);
-  const totalPct = Math.round((totalSoma / 84) * 100);
-  const nivel = totalPct >= 75 ? "Alto" : totalPct >= 50 ? "Médio" : "Baixo";
-  return { scores, totalSoma, totalPct, nivel };
+  const totalSoma = scores.reduce((a,s)=>a+s.soma,0);
+  const totalPct = Math.round((totalSoma/84)*100);
+  const nivel = totalPct>=75?"Alto":totalPct>=50?"Médio":"Baixo";
+  return {scores, totalPct, nivel};
 }
 
-function render() { document.getElementById("app").innerHTML = html(); bind(); if(view==="result") drawRadar(); }
+function render(){ document.getElementById("app").innerHTML=html(); bind(); if(view==="detalhe") drawRadar(); if(view==="long") drawLongChart(); }
 
-function html() {
-  if(view==="intro")  return htmlIntro();
-  if(view==="quiz")   return htmlQuiz();
-  if(view==="result") return htmlResult();
+function html(){
+  if(view==="home")    return htmlHome();
+  if(view==="quiz")    return htmlQuiz();
+  if(view==="ok")      return htmlOk();
+  if(view==="senha")   return htmlSenha();
+  if(view==="dash")    return htmlDash();
+  if(view==="detalhe") return htmlDetalhe();
+  if(view==="long")    return htmlLong();
   return "";
 }
 
-function htmlIntro() {
+function htmlHome(){
   return `<div class="screen">
     <div class="header">
       <p class="sub">Avaliação Psicológica</p>
-      <h1>ACSI-28 — Inventário de Enfrentamento para Atletas</h1>
-      <p>Os itens abaixo descrevem suas experiências de enfrentamento. Leia cada frase cuidadosamente e responda com que frequência você experimenta a mesma coisa. Não há resposta certa ou errada.</p>
+      <h1>ACSI-28</h1>
+      <p>Inventário de Habilidades Psicológicas de Enfrentamento para Atletas. Leia cada frase com atenção e responda com que frequência você experimenta cada situação.</p>
     </div>
     <div style="background:#fff;border:1px solid var(--cr2);border-radius:12px;padding:1.25rem;margin-bottom:1.25rem">
       <p style="font-size:13px;color:var(--vd);font-weight:500;margin-bottom:12px">Escala de resposta:</p>
@@ -157,25 +202,28 @@ function htmlIntro() {
           <span style="font-size:13px;color:#555">${l}</span>
         </div>`).join("")}
     </div>
-    <label class="fl">Nome completo do atleta</label>
-    <input type="text" id="inp-nome" value="${nomeAtleta}" placeholder="Digite o nome..."/>
+    <label class="fl">Nome completo</label>
+    <input type="text" id="inp-nm" value="${nm}" placeholder="Digite seu nome..."/>
     <label class="fl">Categoria</label>
-    <input type="text" id="inp-cat" value="${catAtleta}" placeholder="Ex: Sub-17"/>
+    <input type="text" id="inp-cat" value="${cat}" placeholder="Ex: Sub-17"/>
     ${errMsg?`<p class="err">${errMsg}</p>`:""}
     <button class="btn-p" id="btn-iniciar">Iniciar avaliação →</button>
+    <div style="border-top:1px solid var(--cr2);padding-top:1.5rem;margin-top:1.5rem;text-align:center">
+      <button class="btn-s" id="btn-dash" style="font-size:13px">Painel de resultados</button>
+    </div>
   </div>`;
 }
 
-function htmlQuiz() {
-  const prog = ((questaoAtual+1)/28)*100;
-  const r = respostas[questaoAtual];
+function htmlQuiz(){
+  const prog=((q+1)/28)*100;
+  const r=respostas[q];
   return `<button class="back" id="btn-back">← Voltar</button>
   <div class="screen">
-    <p class="prog-label">Questão ${questaoAtual+1} de 28</p>
+    <p class="prog-label">Questão ${q+1} de 28</p>
     <div class="prog-bar"><div class="prog-fill" style="width:${prog}%"></div></div>
     <div class="qcard">
-      <p class="qnum">Item ${questaoAtual+1}</p>
-      <p class="qtext">${ITEMS[questaoAtual].replace(/^\d+\) /,"")}</p>
+      <p class="qnum">Item ${q+1}</p>
+      <p class="qtext">${ITEMS[q]}</p>
       <div class="scale-row">
         ${[0,1,2,3].map(n=>`<button class="scale-btn ${r===n?"on":""}" data-v="${n}">${n}</button>`).join("")}
       </div>
@@ -183,151 +231,301 @@ function htmlQuiz() {
     </div>
     ${errMsg?`<p class="err">${errMsg}</p>`:""}
     <div class="nav-row">
-      ${questaoAtual>0?`<button class="btn-s" id="btn-prev">← Anterior</button>`:""}
-      <button class="btn-p" id="btn-next">${questaoAtual<27?"Próximo →":"Ver resultado"}</button>
+      ${q>0?`<button class="btn-s" id="btn-prev">← Anterior</button>`:""}
+      <button class="btn-p" id="btn-next">${q<27?"Próximo →":"Finalizar"}</button>
     </div>
   </div>`;
 }
 
-function htmlResult() {
-  const {scores, totalPct, nivel} = calcular();
-  const hoje = new Date().toLocaleDateString("pt-BR");
+function htmlOk(){
+  return `<div class="ok-screen">
+    <div class="ok-circle">✓</div>
+    <p style="font-size:20px;font-weight:500;color:var(--vd)">Avaliação concluída!</p>
+    <p style="font-size:14px;color:#666">Obrigado, ${nm.split(" ")[0]}. Suas respostas foram registradas.</p>
+    <button class="btn-s" id="btn-back" style="margin-top:8px">Voltar ao início</button>
+  </div>`;
+}
+
+function htmlSenha(){
+  return `<div class="senha-box">
+    <h2>Painel de Resultados</h2>
+    <p>Digite a senha para acessar</p>
+    <input type="password" id="inp-senha" placeholder="Senha..."/>
+    ${senhaErr?`<p class="err" style="margin-top:-8px;margin-bottom:8px">${senhaErr}</p>`:""}
+    <button class="btn-p" id="btn-entrar">Entrar</button>
+    <br><br><button class="btn-s" id="btn-back">← Voltar</button>
+  </div>`;
+}
+
+function htmlDash(){
+  const nomes = ["Todos",...new Set(entries.map(e=>e.name))].sort();
+  const fil = filtroAtleta==="Todos" ? entries : entries.filter(e=>e.name===filtroAtleta);
+  const grp={};
+  fil.forEach(d=>{ if(!grp[d.date]) grp[d.date]=[]; grp[d.date].push(d); });
+  const dates=Object.keys(grp).sort((a,b)=>b.split("/").reverse().join("-").localeCompare(a.split("/").reverse().join("-")));
+
+  return `<button class="back" id="btn-back">← Voltar</button>
+  <div class="screen">
+    <div class="dh">
+      <div>
+        <p style="font-size:11px;color:var(--sg);font-weight:500;letter-spacing:1px;text-transform:uppercase;margin:0">Painel</p>
+        <p style="font-size:20px;font-weight:500;color:var(--vd);margin:0">ACSI-28</p>
+      </div>
+      <div style="display:flex;gap:6px;flex-wrap:wrap">
+        <button class="btn-s" id="btn-long" style="font-size:12px">📈 Evolução</button>
+        <button class="btn-danger" id="btn-clear" style="font-size:12px">Limpar</button>
+      </div>
+    </div>
+
+    <div class="mgrid">
+      <div class="mcard"><p class="ml">Avaliações</p><p class="mv">${fil.length}</p></div>
+      <div class="mcard"><p class="ml">Atletas</p><p class="mv">${new Set(fil.map(e=>e.name)).size}</p></div>
+    </div>
+
+    <div style="margin-bottom:1rem">
+      <label class="fl">Filtrar por atleta</label>
+      <select id="sel-filtro">
+        ${nomes.map(n=>`<option value="${n}" ${filtroAtleta===n?"selected":""}>${n}</option>`).join("")}
+      </select>
+    </div>
+
+    ${!loaded?`<p class="loading">Carregando...</p>`:
+      fil.length===0?`<div class="empty">Nenhuma avaliação ainda.</div>`:
+      dates.map(date=>`
+        <p class="dlabel">${date}</p>
+        ${grp[date].map(d=>{
+          const {scores,totalPct,nivel}=calcular(Object.values(d).filter((_,i)=>i>4).slice(0,28).length===28?Array.from({length:28},(_,i)=>d[`q${i+1}`]):new Array(28).fill(0));
+          const resps=Array.from({length:28},(_,i)=>d[`q${i+1}`]??0);
+          const calc=calcular(resps);
+          return `<div class="acard" data-key="${d._k}">
+            <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:6px">
+              <div style="display:flex;align-items:center;gap:10px">
+                <div class="av"><span>${ini(d.name)}</span></div>
+                <div><p class="aname">${d.name}</p><p class="asub">${d.cat} · ${d.time}</p></div>
+              </div>
+              <div style="display:flex;align-items:center;gap:8px">
+                <span class="${pc(calc.totalPct)}">${calc.totalPct}%</span>
+                <span style="font-size:12px;color:#bbb">${exp===d._k?"▲":"▼"}</span>
+              </div>
+            </div>
+            ${exp===d._k?`<div class="detail">
+              ${calc.scores.map((s,i)=>`<div class="brow">
+                <span class="blabel">${s.nome}</span>
+                <div class="btrack"><div class="bfill" style="width:${s.pct}%;background:${bc(s.pct)}"></div></div>
+                <span class="bval">${s.pct}%</span>
+              </div>`).join("")}
+              <div style="display:flex;gap:8px;margin-top:10px">
+                <button class="btn-p" style="font-size:13px" data-detail="${d._k}">Ver resultado completo</button>
+              </div>
+            </div>`:""}
+          </div>`;
+        }).join("")}`).join("")
+    }
+  </div>`;
+}
+
+function htmlDetalhe(){
+  const entry = entries.find(e=>e._k===exp);
+  if(!entry){ view="dash"; return htmlDash(); }
+  const resps = Array.from({length:28},(_,i)=>entry[`q${i+1}`]??0);
+  const {scores,totalPct,nivel} = calcular(resps);
+  const hoje = entry.date;
   const nivelCor = nivel==="Alto"?"#27ae60":nivel==="Médio"?"#C0A258":"#c0392b";
-  const interps = {
-    "Desempenho sob Pressão":"Avalia o quanto o atleta tende a se sentir mais desafiado do que ameaçado nas situações de pressão competitiva, atingindo bons níveis de rendimento sob pressão.",
-    "Lidar com Adversidades":"Avalia o quanto o atleta tende a se manter positivo, calmo e entusiasmado, mesmo quando as coisas correm mal, recuperando-se rapidamente dos erros.",
-    "Metas/Preparação Mental":"Avalia o quanto o atleta trabalha guiado por metas específicas de desempenho, construindo e executando planos de ação e se preparando mentalmente para a competição.",
-    "Livre de Preocupação":"Avalia o quanto o atleta tende a não alimentar preocupações desnecessárias em relação ao desempenho, focando no que quer que aconteça.",
-    "Concentração":"Avalia o quanto o atleta tende a se manter focado na tarefa, bloqueando distrações internas e externas.",
-    "Treinabilidade":"Avalia a abertura e acessibilidade do atleta ao aprendizado, lidando bem com a crítica construtiva e seguindo instruções com facilidade.",
-    "Motivação e Confiança":"Avalia o quanto o atleta tende a confiar em suas capacidades, manter-se positivo em relação ao seu rendimento e perseverar frente a situações negativas.",
-  };
 
-  return `<button class="back" id="btn-back">← Nova avaliação</button>
-  <div class="screen" id="resultado-print">
+  return `<button class="back" id="btn-back">← Voltar</button>
+  <div class="screen" id="print-area">
+    <div class="header">
+      <p class="sub">Resultado ACSI-28 · ${hoje}</p>
+      <h1>${entry.name}</h1>
+      <p>${entry.cat}</p>
+    </div>
 
-    <div class="result-header">
-      <p class="nome">${nomeAtleta} · ${catAtleta}</p>
-      <p style="color:#8CA591;font-size:11px;margin-top:2px">Data da avaliação: ${hoje}</p>
-      <p class="total">${totalPct}%</p>
-      <p class="nivel">Recursos Totais de Coping — <span style="color:${nivelCor}">${nivel}</span></p>
+    <div style="background:#fff;border:1px solid var(--cr2);border-radius:12px;padding:1.25rem;margin-bottom:1.25rem;text-align:center">
+      <p style="font-size:11px;color:#999;text-transform:uppercase;letter-spacing:1px;margin-bottom:4px">Recursos Totais de Coping</p>
+      <p style="font-size:48px;font-weight:300;color:var(--vd)">${totalPct}%</p>
+      <p style="font-size:14px;font-weight:500;color:${nivelCor}">Nível ${nivel}</p>
     </div>
 
     <div class="radar-wrap">
-      <canvas id="radarCanvas" width="480" height="320"></canvas>
+      <canvas id="radarCanvas" width="480" height="300"></canvas>
     </div>
 
-    <div class="sub-grid">
-      ${scores.map((s,i)=>`
-        <div class="sub-card">
-          <p class="slabel">${s.nome}</p>
-          <p class="sval" style="color:${s.pct>=75?"#27ae60":s.pct>=50?"#C0A258":"#c0392b"}">${s.pct}%</p>
-          <div class="sbar"><div class="sbfill" style="width:${s.pct}%;background:${CORES[i]}"></div></div>
-        </div>`).join("")}
+    <div class="mgrid">
+      ${scores.map((s,i)=>`<div class="mcard">
+        <p class="ml">${s.nome}</p>
+        <p class="mv" style="color:${bc(s.pct)}">${s.pct}%</p>
+        <div style="height:4px;background:var(--cr2);border-radius:2px;margin-top:6px;overflow:hidden">
+          <div style="height:100%;width:${s.pct}%;background:${CORES[i]};border-radius:2px"></div>
+        </div>
+      </div>`).join("")}
     </div>
 
-    <div class="interp">
-      <strong>Interpretação por subescala:</strong><br><br>
-      ${scores.map(s=>`
-        <div style="margin-bottom:10px">
-          <strong style="color:${s.pct>=75?"#27ae60":s.pct>=50?"#C0A258":"#c0392b"}">${s.nome} — ${s.pct}%</strong><br>
-          <span style="font-size:12px">${interps[s.nome]}</span>
-        </div>`).join("")}
-      <div style="margin-top:8px;padding-top:8px;border-top:1px solid var(--cr2);font-size:12px;color:#888">
-        Classificação: ≥75% = <span style="color:#27ae60">Alto</span> · 50–74% = <span style="color:#C0A258">Médio</span> · &lt;50% = <span style="color:#c0392b">Baixo</span><br>
-        Referência: Coimbra, D.R., Bara Filho, M., Andrade, A., & Miranda, R. (2013). Habilidades psicológicas de coping em atletas brasileiros. Motricidade, 9(1), 95-106.
+    <div class="interp-box">
+      <strong style="color:var(--vd);display:block;margin-bottom:10px">Interpretação por subescala</strong>
+      ${scores.map(s=>`<div style="margin-bottom:8px">
+        <strong style="color:${bc(s.pct)};font-size:13px">${s.nome} — ${s.pct}%</strong><br>
+        <span style="font-size:12px">${INTERPS[s.nome]}</span>
+      </div>`).join("")}
+      <div style="margin-top:8px;padding-top:8px;border-top:1px solid var(--cr2);font-size:11px;color:#aaa">
+        ≥75% = <span style="color:#27ae60">Alto</span> · 50–74% = <span style="color:#C0A258">Médio</span> · &lt;50% = <span style="color:#e74c3c">Baixo</span><br>
+        Ref: Coimbra, D.R., Bara Filho, M., Andrade, A., & Miranda, R. (2013). Motricidade, 9(1), 95-106.
       </div>
     </div>
 
     <button class="btn-print" onclick="window.print()">🖨 Imprimir / Salvar PDF</button>
-    <button class="btn-novo" id="btn-novo">Nova avaliação</button>
   </div>`;
 }
 
-function drawRadar() {
-  const {scores} = calcular();
-  const canvas = document.getElementById("radarCanvas");
-  if(!canvas) return;
-  const ctx = canvas.getContext("2d");
-  const W=480, H=320, cx=W/2, cy=H/2, R=120;
-  ctx.clearRect(0,0,W,H);
-  const n = scores.length;
-  const ang = i => (Math.PI*2*i/n) - Math.PI/2;
+function htmlLong(){
+  const nomes=[...new Set(entries.map(e=>e.name))].sort();
+  const atletaData = selAtleta ? entries.filter(e=>e.name===selAtleta).sort((a,b)=>a.date.split("/").reverse().join("-").localeCompare(b.date.split("/").reverse().join("-"))) : [];
 
-  // grades
-  [25,50,75,100].forEach(pct => {
-    const r = R*(pct/100);
+  return `<button class="back" id="btn-back">← Voltar</button>
+  <div class="screen">
+    <div class="dh">
+      <div>
+        <p style="font-size:11px;color:var(--sg);font-weight:500;letter-spacing:1px;text-transform:uppercase;margin:0">Análise Longitudinal</p>
+        <p style="font-size:20px;font-weight:500;color:var(--vd);margin:0">Evolução por Atleta</p>
+      </div>
+    </div>
+
+    <label class="fl">Selecione o atleta</label>
+    <select id="sel-atleta">
+      <option value="">Selecione...</option>
+      ${nomes.map(n=>`<option value="${n}" ${selAtleta===n?"selected":""}>${n}</option>`).join("")}
+    </select>
+
+    ${selAtleta&&atletaData.length===0?`<div class="empty">Nenhuma avaliação encontrada.</div>`:""}
+
+    ${selAtleta&&atletaData.length>0?`
+      <div class="legend">
+        ${SUBS.map((s,i)=>`<div class="legend-item"><div class="legend-dot" style="background:${CORES[i]}"></div>${s.nome.split("/")[0]}</div>`).join("")}
+      </div>
+      <div class="radar-wrap"><canvas id="longCanvas" width="480" height="260"></canvas></div>
+
+      <p class="dlabel" style="margin-top:1rem">Histórico de avaliações</p>
+      ${atletaData.map((d,idx)=>{
+        const resps=Array.from({length:28},(_,i)=>d[`q${i+1}`]??0);
+        const {scores,totalPct,nivel}=calcular(resps);
+        return `<div class="acard" style="cursor:default">
+          <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:6px">
+            <div><p class="aname">Avaliação ${idx+1} — ${d.date}</p><p class="asub">${d.cat}</p></div>
+            <span class="${pc(totalPct)}">${totalPct}% · ${nivel}</span>
+          </div>
+          <div class="detail" style="display:block;padding-top:10px;margin-top:10px">
+            ${scores.map(s=>`<div class="brow">
+              <span class="blabel" style="font-size:11px">${s.nome}</span>
+              <div class="btrack"><div class="bfill" style="width:${s.pct}%;background:${bc(s.pct)}"></div></div>
+              <span class="bval">${s.pct}%</span>
+            </div>`).join("")}
+          </div>
+        </div>`;
+      }).join("")}
+    `:""}
+  </div>`;
+}
+
+function drawRadar(){
+  const entry=entries.find(e=>e._k===exp);
+  if(!entry) return;
+  const resps=Array.from({length:28},(_,i)=>entry[`q${i+1}`]??0);
+  const {scores}=calcular(resps);
+  drawRadarChart("radarCanvas",scores,480,300);
+}
+
+function drawLongChart(){
+  if(!selAtleta) return;
+  const atletaData=entries.filter(e=>e.name===selAtleta).sort((a,b)=>a.date.split("/").reverse().join("-").localeCompare(b.date.split("/").reverse().join("-")));
+  if(!atletaData.length) return;
+  // usa a última avaliação para o radar
+  const last=atletaData[atletaData.length-1];
+  const resps=Array.from({length:28},(_,i)=>last[`q${i+1}`]??0);
+  const {scores}=calcular(resps);
+  drawRadarChart("longCanvas",scores,480,260);
+}
+
+function drawRadarChart(id,scores,W,H){
+  const canvas=document.getElementById(id);
+  if(!canvas) return;
+  const ctx=canvas.getContext("2d");
+  const cx=W/2, cy=H/2, R=Math.min(W,H)/2-55;
+  ctx.clearRect(0,0,W,H);
+  const n=scores.length;
+  const ang=i=>(Math.PI*2*i/n)-Math.PI/2;
+
+  [25,50,75,100].forEach(pct=>{
+    const r=R*(pct/100);
     ctx.beginPath();
     scores.forEach((_,i)=>{ const a=ang(i); i===0?ctx.moveTo(cx+r*Math.cos(a),cy+r*Math.sin(a)):ctx.lineTo(cx+r*Math.cos(a),cy+r*Math.sin(a)); });
-    ctx.closePath();
-    ctx.strokeStyle="#EEE8DA"; ctx.lineWidth=1; ctx.stroke();
-    ctx.fillStyle="#bbb"; ctx.font="9px sans-serif";
-    ctx.fillText(pct+"%", cx+4, cy-r+4);
+    ctx.closePath(); ctx.strokeStyle="#EEE8DA"; ctx.lineWidth=1; ctx.stroke();
+    ctx.fillStyle="#bbb"; ctx.font="9px sans-serif"; ctx.fillText(pct+"%",cx+4,cy-r+4);
   });
 
-  // eixos
   scores.forEach((_,i)=>{
     const a=ang(i);
     ctx.beginPath(); ctx.moveTo(cx,cy); ctx.lineTo(cx+R*Math.cos(a),cy+R*Math.sin(a));
     ctx.strokeStyle="#EEE8DA"; ctx.lineWidth=1; ctx.stroke();
+    const dist=R+18, x=cx+dist*Math.cos(a), y=cy+dist*Math.sin(a);
+    const words=scores[i].nome.split("/")[0].split(" ");
+    ctx.fillStyle="#304E38"; ctx.font="bold 9px sans-serif"; ctx.textAlign="center";
+    words.forEach((w,wi)=>ctx.fillText(w,x,y+(wi-(words.length-1)/2)*11));
+    ctx.fillStyle=bc(scores[i].pct); ctx.font="bold 10px sans-serif";
+    ctx.fillText(scores[i].pct+"%",x,y+(words.length/2)*11+11);
   });
 
-  // labels
-  scores.forEach((s,i)=>{
-    const a=ang(i), dist=R+22;
-    const x=cx+dist*Math.cos(a), y=cy+dist*Math.sin(a);
-    ctx.fillStyle="#304E38"; ctx.font="bold 10px sans-serif"; ctx.textAlign="center";
-    const words=s.nome.split(" ");
-    words.forEach((w,wi)=>ctx.fillText(w,x,y+(wi-(words.length-1)/2)*13));
-    ctx.fillStyle=s.pct>=75?"#27ae60":s.pct>=50?"#C0A258":"#c0392b";
-    ctx.font="bold 11px sans-serif";
-    ctx.fillText(s.pct+"%",x,y+(words.length/2)*13+12);
-  });
-
-  // polígono
   ctx.beginPath();
-  scores.forEach((s,i)=>{ const a=ang(i), r=R*(s.pct/100); i===0?ctx.moveTo(cx+r*Math.cos(a),cy+r*Math.sin(a)):ctx.lineTo(cx+r*Math.cos(a),cy+r*Math.sin(a)); });
-  ctx.closePath();
-  ctx.fillStyle="rgba(48,78,56,0.15)"; ctx.fill();
+  scores.forEach((s,i)=>{ const a=ang(i),r=R*(s.pct/100); i===0?ctx.moveTo(cx+r*Math.cos(a),cy+r*Math.sin(a)):ctx.lineTo(cx+r*Math.cos(a),cy+r*Math.sin(a)); });
+  ctx.closePath(); ctx.fillStyle="rgba(48,78,56,0.15)"; ctx.fill();
   ctx.strokeStyle="#304E38"; ctx.lineWidth=2; ctx.stroke();
-
-  // pontos
-  scores.forEach((s,i)=>{
-    const a=ang(i), r=R*(s.pct/100);
-    ctx.beginPath(); ctx.arc(cx+r*Math.cos(a),cy+r*Math.sin(a),4,0,Math.PI*2);
-    ctx.fillStyle="#304E38"; ctx.fill();
-  });
+  scores.forEach((s,i)=>{ const a=ang(i),r=R*(s.pct/100); ctx.beginPath(); ctx.arc(cx+r*Math.cos(a),cy+r*Math.sin(a),4,0,Math.PI*2); ctx.fillStyle="#304E38"; ctx.fill(); });
 }
 
-function bind() {
+function bind(){
   document.getElementById("btn-iniciar")?.addEventListener("click",()=>{
-    nomeAtleta=document.getElementById("inp-nome")?.value.trim()||"";
-    catAtleta=document.getElementById("inp-cat")?.value.trim()||"";
-    if(!nomeAtleta){ errMsg="Por favor, informe o nome do atleta."; render(); return; }
-    errMsg=""; questaoAtual=0; respostas=new Array(28).fill(null);
-    view="quiz"; render();
+    nm=document.getElementById("inp-nm")?.value.trim()||"";
+    cat=document.getElementById("inp-cat")?.value.trim()||"";
+    if(!nm){ errMsg="Por favor, informe o nome."; render(); return; }
+    errMsg=""; q=0; respostas=new Array(28).fill(null); view="quiz"; render();
   });
 
-  document.querySelectorAll(".scale-btn[data-v]").forEach(b=>b.addEventListener("click",()=>{
-    respostas[questaoAtual]=parseInt(b.dataset.v); errMsg=""; render();
-  }));
+  document.querySelectorAll(".scale-btn[data-v]").forEach(b=>b.addEventListener("click",()=>{ respostas[q]=parseInt(b.dataset.v); errMsg=""; render(); }));
 
-  document.getElementById("btn-next")?.addEventListener("click",()=>{
-    if(respostas[questaoAtual]===null){ errMsg="Por favor, selecione uma resposta."; render(); return; }
-    if(questaoAtual<27){ questaoAtual++; errMsg=""; render(); }
-    else { view="result"; render(); }
+  document.getElementById("btn-next")?.addEventListener("click",async()=>{
+    if(respostas[q]===null){ errMsg="Por favor, selecione uma resposta."; render(); return; }
+    if(q<27){ q++; errMsg=""; render(); return; }
+    const entry={name:nm.trim(),cat,date:new Date().toLocaleDateString("pt-BR"),time:new Date().toLocaleTimeString("pt-BR",{hour:"2-digit",minute:"2-digit"})};
+    respostas.forEach((r,i)=>entry[`q${i+1}`]=r);
+    await push(ref(db,"acsi28"),entry);
+    view="ok"; render();
   });
 
-  document.getElementById("btn-prev")?.addEventListener("click",()=>{ if(questaoAtual>0){ questaoAtual--; errMsg=""; render(); } });
-
+  document.getElementById("btn-prev")?.addEventListener("click",()=>{ if(q>0){ q--; errMsg=""; render(); } });
   document.getElementById("btn-back")?.addEventListener("click",()=>{
-    if(view==="quiz"){ view="intro"; render(); }
-    else if(view==="result"){ view="intro"; respostas=new Array(28).fill(null); render(); }
+    if(view==="quiz"||view==="ok"){ view="home"; render(); }
+    else if(view==="detalhe"||view==="long"){ view="dash"; render(); }
+    else if(view==="dash"){ view="home"; render(); }
+    else if(view==="senha"){ view="home"; render(); }
   });
 
-  document.getElementById("btn-novo")?.addEventListener("click",()=>{
-    view="intro"; respostas=new Array(28).fill(null); nomeAtleta=""; catAtleta=""; render();
+  document.getElementById("btn-dash")?.addEventListener("click",()=>{ senhaErr=""; view="senha"; render(); });
+  document.getElementById("btn-entrar")?.addEventListener("click",()=>{
+    const v=document.getElementById("inp-senha")?.value||"";
+    if(v===SENHA){ view="dash"; render(); } else { senhaErr="Senha incorreta."; render(); }
   });
+  document.getElementById("inp-senha")?.addEventListener("keydown",e=>{ if(e.key==="Enter") document.getElementById("btn-entrar")?.click(); });
+
+  document.getElementById("sel-filtro")?.addEventListener("change",e=>{ filtroAtleta=e.target.value; render(); });
+  document.getElementById("btn-long")?.addEventListener("click",()=>{ selAtleta=""; view="long"; render(); });
+  document.getElementById("sel-atleta")?.addEventListener("change",e=>{ selAtleta=e.target.value; render(); });
+  document.getElementById("btn-clear")?.addEventListener("click",async()=>{
+    if(confirm("Apagar todas as avaliações? Esta ação não pode ser desfeita.")) await remove(ref(db,"acsi28"));
+  });
+
+  document.querySelectorAll(".acard[data-key]").forEach(c=>c.addEventListener("click",e=>{
+    if(e.target.closest("[data-detail]")) return;
+    exp=exp===c.dataset.key?null:c.dataset.key; render();
+  }));
+  document.querySelectorAll("[data-detail]").forEach(b=>b.addEventListener("click",()=>{ exp=b.dataset.detail; view="detalhe"; render(); }));
 }
 
 render();
