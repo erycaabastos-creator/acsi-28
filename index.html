@@ -48,12 +48,11 @@ label.fl{font-size:13px;color:#666;display:block;margin-bottom:6px}
 .av{width:32px;height:32px;border-radius:50%;background:var(--vd);display:flex;align-items:center;justify-content:center;flex-shrink:0}
 .av span{color:#F8F4EC;font-size:12px;font-weight:500}
 .detail{margin-top:12px;padding-top:12px;border-top:1px solid var(--cr2)}
-.brow{display:flex;align-items:center;gap:8px;margin-bottom:6px}
-.blabel{font-size:12px;color:#999;width:160px;flex-shrink:0}
-.btrack{flex:1;height:6px;background:var(--cr2);border-radius:3px;overflow:hidden}
-.bfill{height:100%;border-radius:3px}
-.bval{font-size:13px;font-weight:500;color:var(--vd);width:36px;text-align:right}
-.radar-wrap{background:#fff;border:1px solid var(--cr2);border-radius:12px;padding:1rem;margin-bottom:1rem}
+.brow{display:flex;align-items:center;gap:8px;margin-bottom:8px}
+.blabel{font-size:11px;color:#666;width:160px;flex-shrink:0}
+.btrack{flex:1;height:8px;background:var(--cr2);border-radius:4px;overflow:hidden}
+.bfill{height:100%;border-radius:4px}
+.bval{font-size:13px;font-weight:600;width:40px;text-align:right}
 .frow{display:flex;gap:8px;margin-bottom:1.25rem;flex-wrap:wrap}
 .fbtn{padding:6px 14px;border-radius:20px;font-size:13px;cursor:pointer;border:1px solid var(--cr2);background:var(--cr);color:var(--vd)}
 .fbtn.on{background:var(--vd);color:#F8F4EC;border-color:var(--vd);font-weight:500}
@@ -69,7 +68,12 @@ label.fl{font-size:13px;color:#666;display:block;margin-bottom:6px}
 .pbad{background:#e74c3c22;color:#e74c3c}
 .interp-box{background:var(--cr);border:1px solid var(--cr2);border-radius:10px;padding:1rem;margin-bottom:1rem;font-size:13px;color:#555;line-height:1.6}
 .btn-print{display:flex;align-items:center;justify-content:center;gap:6px;width:100%;padding:12px;border-radius:10px;border:1px solid var(--cr2);background:#fff;color:var(--vd);font-size:14px;cursor:pointer;margin-bottom:10px}
-@media print{.back,.btn-print,.nav-row,.dh,.frow{display:none}body{background:#fff}}
+.dim-card{background:#fff;border:1px solid var(--cr2);border-radius:10px;padding:.875rem 1rem}
+.dim-label{font-size:10px;text-transform:uppercase;letter-spacing:.8px;color:#999;margin-bottom:6px}
+.dim-valor{font-size:22px;font-weight:500;margin-bottom:6px}
+.dim-bar{height:6px;background:var(--cr2);border-radius:3px;overflow:hidden}
+.dim-fill{height:100%;border-radius:3px}
+@media print{.back,.btn-print,.nav-row,.dh,.frow{display:none}body{background:#fff}.screen{padding:0}}
 </style>
 </head>
 <body>
@@ -145,7 +149,6 @@ const INTERPS = {
 
 const CORES = ["#304E38","#C0A258","#8CA591","#5d8a6e","#a07c3e","#4a7a5e","#b08040"];
 
-// estado
 let view="home", nm="", cat="", respostas=new Array(28).fill(null), q=0, errMsg="";
 let entries=[], loaded=false, exp=null, senhaErr="", selAtleta="", filtroAtleta="Todos";
 
@@ -174,7 +177,68 @@ function calcular(resp){
   return {scores, totalPct, nivel};
 }
 
-function render(){ document.getElementById("app").innerHTML=html(); bind(); if(view==="detalhe") drawRadar(); if(view==="long") drawLongChart(); }
+function radarSVG(scores, W, H){
+  const n = scores.length;
+  const cx = W/2, cy = H/2;
+  const R = Math.min(W,H)/2 - 60;
+  const ang = i => (Math.PI*2*i/n) - Math.PI/2;
+  const pt = (i, r) => {
+    const a = ang(i);
+    return [cx + r*Math.cos(a), cy + r*Math.sin(a)];
+  };
+
+  let svg = `<svg viewBox="0 0 ${W} ${H}" width="100%" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Gráfico radar ACSI-28 com 7 dimensões">
+  <title>Gráfico radar ACSI-28</title>`;
+
+  // Grid
+  [25,50,75,100].forEach(pct=>{
+    const r = R*(pct/100);
+    const pts = scores.map((_,i)=>pt(i,r).join(",")).join(" ");
+    svg += `<polygon points="${pts}" fill="none" stroke="#EEE8DA" stroke-width="1"/>`;
+    const [lx,ly] = pt(0, r);
+    svg += `<text x="${lx+4}" y="${ly}" font-size="8" fill="#bbb" font-family="sans-serif">${pct}%</text>`;
+  });
+
+  // Axes
+  scores.forEach((_,i)=>{
+    const [x,y] = pt(i,R);
+    svg += `<line x1="${cx}" y1="${cy}" x2="${x}" y2="${y}" stroke="#EEE8DA" stroke-width="0.8"/>`;
+  });
+
+  // Data polygon
+  const dataPts = scores.map((s,i)=>pt(i,R*(s.pct/100)).join(",")).join(" ");
+  svg += `<polygon points="${dataPts}" fill="rgba(48,78,56,0.15)" stroke="#304E38" stroke-width="2"/>`;
+
+  // Dots
+  scores.forEach((s,i)=>{
+    const [x,y] = pt(i,R*(s.pct/100));
+    svg += `<circle cx="${x}" cy="${y}" r="4" fill="#C0A258"/>`;
+  });
+
+  // Labels
+  scores.forEach((s,i)=>{
+    const a = ang(i);
+    const dist = R + 22;
+    const lx = cx + dist*Math.cos(a);
+    const ly = cy + dist*Math.sin(a);
+    const anchor = Math.cos(a) > 0.1 ? "start" : Math.cos(a) < -0.1 ? "end" : "middle";
+    const words = s.nome.split(" ");
+    const lineh = 11;
+    const totalLines = words.length <= 2 ? 1 : 2;
+    let line1 = words.length <= 2 ? words.join(" ") : words.slice(0,Math.ceil(words.length/2)).join(" ");
+    let line2 = words.length <= 2 ? "" : words.slice(Math.ceil(words.length/2)).join(" ");
+    const offsetY = ly - (totalLines-1)*lineh/2;
+    svg += `<text x="${lx}" y="${offsetY}" font-size="10" fill="#304E38" font-weight="500" font-family="sans-serif" text-anchor="${anchor}">${line1}</text>`;
+    if(line2) svg += `<text x="${lx}" y="${offsetY+lineh}" font-size="10" fill="#304E38" font-weight="500" font-family="sans-serif" text-anchor="${anchor}">${line2}</text>`;
+    const cor = bc(s.pct);
+    svg += `<text x="${lx}" y="${offsetY+(totalLines)*lineh+2}" font-size="10" fill="${cor}" font-weight="700" font-family="sans-serif" text-anchor="${anchor}">${s.pct}%</text>`;
+  });
+
+  svg += `</svg>`;
+  return svg;
+}
+
+function render(){ document.getElementById("app").innerHTML=html(); bind(); }
 
 function html(){
   if(view==="home")    return htmlHome();
@@ -276,26 +340,22 @@ function htmlDash(){
         <button class="btn-danger" id="btn-clear" style="font-size:12px">Limpar</button>
       </div>
     </div>
-
     <div class="mgrid">
       <div class="mcard"><p class="ml">Avaliações</p><p class="mv">${fil.length}</p></div>
       <div class="mcard"><p class="ml">Atletas</p><p class="mv">${new Set(fil.map(e=>e.name)).size}</p></div>
     </div>
-
     <div style="margin-bottom:1rem">
       <label class="fl">Filtrar por atleta</label>
       <select id="sel-filtro">
         ${nomes.map(n=>`<option value="${n}" ${filtroAtleta===n?"selected":""}>${n}</option>`).join("")}
       </select>
     </div>
-
     ${!loaded?`<p class="loading">Carregando...</p>`:
       fil.length===0?`<div class="empty">Nenhuma avaliação ainda.</div>`:
       dates.map(date=>`
         <p class="dlabel">${date}</p>
         ${grp[date].map(d=>{
-          const {scores,totalPct,nivel}=calcular(Object.values(d).filter((_,i)=>i>4).slice(0,28).length===28?Array.from({length:28},(_,i)=>d[`q${i+1}`]):new Array(28).fill(0));
-          const resps=Array.from({length:28},(_,i)=>d[`q${i+1}`]??0);
+          const resps=Array.from({length:28},(_,i)=>d["q"+(i+1)]??0);
           const calc=calcular(resps);
           return `<div class="acard" data-key="${d._k}">
             <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:6px">
@@ -309,12 +369,12 @@ function htmlDash(){
               </div>
             </div>
             ${exp===d._k?`<div class="detail">
-              ${calc.scores.map((s,i)=>`<div class="brow">
+              ${calc.scores.map(s=>`<div class="brow">
                 <span class="blabel">${s.nome}</span>
                 <div class="btrack"><div class="bfill" style="width:${s.pct}%;background:${bc(s.pct)}"></div></div>
-                <span class="bval">${s.pct}%</span>
+                <span class="bval" style="color:${bc(s.pct)}">${s.pct}%</span>
               </div>`).join("")}
-              <div style="display:flex;gap:8px;margin-top:10px">
+              <div style="margin-top:10px">
                 <button class="btn-p" style="font-size:13px" data-detail="${d._k}">Ver resultado completo</button>
               </div>
             </div>`:""}
@@ -327,44 +387,41 @@ function htmlDash(){
 function htmlDetalhe(){
   const entry = entries.find(e=>e._k===exp);
   if(!entry){ view="dash"; return htmlDash(); }
-  const resps = Array.from({length:28},(_,i)=>entry[`q${i+1}`]??0);
+  const resps = Array.from({length:28},(_,i)=>entry["q"+(i+1)]??0);
   const {scores,totalPct,nivel} = calcular(resps);
-  const hoje = entry.date;
   const nivelCor = nivel==="Alto"?"#27ae60":nivel==="Médio"?"#C0A258":"#c0392b";
 
   return `<button class="back" id="btn-back">← Voltar</button>
   <div class="screen" id="print-area">
     <div class="header">
-      <p class="sub">Resultado ACSI-28 · ${hoje}</p>
+      <p class="sub">Resultado ACSI-28 · ${entry.date}</p>
       <h1>${entry.name}</h1>
       <p>${entry.cat}</p>
     </div>
 
-    <div style="background:#fff;border:1px solid var(--cr2);border-radius:12px;padding:1.25rem;margin-bottom:1.25rem;text-align:center">
+    <div style="background:#fff;border:1px solid var(--cr2);border-radius:12px;padding:1.25rem;margin-bottom:1rem;text-align:center">
       <p style="font-size:11px;color:#999;text-transform:uppercase;letter-spacing:1px;margin-bottom:4px">Recursos Totais de Coping</p>
-      <p style="font-size:48px;font-weight:300;color:var(--vd)">${totalPct}%</p>
+      <p style="font-size:52px;font-weight:500;color:var(--vd);line-height:1;margin-bottom:6px">${totalPct}%</p>
       <p style="font-size:14px;font-weight:500;color:${nivelCor}">Nível ${nivel}</p>
     </div>
 
-    <div class="radar-wrap">
-      <canvas id="radarCanvas" width="480" height="300"></canvas>
+    <div style="background:#fff;border:1px solid var(--cr2);border-radius:12px;padding:1rem;margin-bottom:1rem">
+      ${radarSVG(scores, 480, 320)}
     </div>
 
     <div class="mgrid">
-      ${scores.map((s,i)=>`<div class="mcard">
-        <p class="ml">${s.nome}</p>
-        <p class="mv" style="color:${bc(s.pct)}">${s.pct}%</p>
-        <div style="height:4px;background:var(--cr2);border-radius:2px;margin-top:6px;overflow:hidden">
-          <div style="height:100%;width:${s.pct}%;background:${CORES[i]};border-radius:2px"></div>
-        </div>
+      ${scores.map(s=>`<div class="dim-card">
+        <p class="dim-label">${s.nome}</p>
+        <p class="dim-valor" style="color:${bc(s.pct)}">${s.pct}%</p>
+        <div class="dim-bar"><div class="dim-fill" style="width:${s.pct}%;background:${bc(s.pct)}"></div></div>
       </div>`).join("")}
     </div>
 
     <div class="interp-box">
-      <strong style="color:var(--vd);display:block;margin-bottom:10px">Interpretação por subescala</strong>
-      ${scores.map(s=>`<div style="margin-bottom:8px">
-        <strong style="color:${bc(s.pct)};font-size:13px">${s.nome} — ${s.pct}%</strong><br>
-        <span style="font-size:12px">${INTERPS[s.nome]}</span>
+      <strong style="color:var(--vd);display:block;margin-bottom:10px;font-size:13px">Interpretação por subescala</strong>
+      ${scores.map(s=>`<div style="margin-bottom:10px">
+        <p style="font-size:13px;font-weight:500;color:${bc(s.pct)};margin-bottom:3px">${s.nome} — ${s.pct}%</p>
+        <p style="font-size:12px;color:#555;line-height:1.5">${INTERPS[s.nome]}</p>
       </div>`).join("")}
       <div style="margin-top:8px;padding-top:8px;border-top:1px solid var(--cr2);font-size:11px;color:#aaa">
         ≥75% = <span style="color:#27ae60">Alto</span> · 50–74% = <span style="color:#C0A258">Médio</span> · &lt;50% = <span style="color:#e74c3c">Baixo</span><br>
@@ -379,6 +436,8 @@ function htmlDetalhe(){
 function htmlLong(){
   const nomes=[...new Set(entries.map(e=>e.name))].sort();
   const atletaData = selAtleta ? entries.filter(e=>e.name===selAtleta).sort((a,b)=>a.date.split("/").reverse().join("-").localeCompare(b.date.split("/").reverse().join("-"))) : [];
+  const ultimo = atletaData.length ? atletaData[atletaData.length-1] : null;
+  const ultimoScores = ultimo ? calcular(Array.from({length:28},(_,i)=>ultimo["q"+(i+1)]??0)).scores : null;
 
   return `<button class="back" id="btn-back">← Voltar</button>
   <div class="screen">
@@ -388,24 +447,21 @@ function htmlLong(){
         <p style="font-size:20px;font-weight:500;color:var(--vd);margin:0">Evolução por Atleta</p>
       </div>
     </div>
-
     <label class="fl">Selecione o atleta</label>
     <select id="sel-atleta">
       <option value="">Selecione...</option>
       ${nomes.map(n=>`<option value="${n}" ${selAtleta===n?"selected":""}>${n}</option>`).join("")}
     </select>
-
     ${selAtleta&&atletaData.length===0?`<div class="empty">Nenhuma avaliação encontrada.</div>`:""}
-
     ${selAtleta&&atletaData.length>0?`
-      <div class="legend">
-        ${SUBS.map((s,i)=>`<div class="legend-item"><div class="legend-dot" style="background:${CORES[i]}"></div>${s.nome.split("/")[0]}</div>`).join("")}
-      </div>
-      <div class="radar-wrap"><canvas id="longCanvas" width="480" height="260"></canvas></div>
-
-      <p class="dlabel" style="margin-top:1rem">Histórico de avaliações</p>
+      ${ultimoScores?`
+        <p class="dlabel" style="margin-bottom:.5rem">Último perfil radar</p>
+        <div style="background:#fff;border:1px solid var(--cr2);border-radius:12px;padding:1rem;margin-bottom:1rem">
+          ${radarSVG(ultimoScores,440,300)}
+        </div>`:""}
+      <p class="dlabel">Histórico de avaliações</p>
       ${atletaData.map((d,idx)=>{
-        const resps=Array.from({length:28},(_,i)=>d[`q${i+1}`]??0);
+        const resps=Array.from({length:28},(_,i)=>d["q"+(i+1)]??0);
         const {scores,totalPct,nivel}=calcular(resps);
         return `<div class="acard" style="cursor:default">
           <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:6px">
@@ -414,70 +470,15 @@ function htmlLong(){
           </div>
           <div class="detail" style="display:block;padding-top:10px;margin-top:10px">
             ${scores.map(s=>`<div class="brow">
-              <span class="blabel" style="font-size:11px">${s.nome}</span>
+              <span class="blabel">${s.nome}</span>
               <div class="btrack"><div class="bfill" style="width:${s.pct}%;background:${bc(s.pct)}"></div></div>
-              <span class="bval">${s.pct}%</span>
+              <span class="bval" style="color:${bc(s.pct)}">${s.pct}%</span>
             </div>`).join("")}
           </div>
         </div>`;
       }).join("")}
     `:""}
   </div>`;
-}
-
-function drawRadar(){
-  const entry=entries.find(e=>e._k===exp);
-  if(!entry) return;
-  const resps=Array.from({length:28},(_,i)=>entry[`q${i+1}`]??0);
-  const {scores}=calcular(resps);
-  drawRadarChart("radarCanvas",scores,480,300);
-}
-
-function drawLongChart(){
-  if(!selAtleta) return;
-  const atletaData=entries.filter(e=>e.name===selAtleta).sort((a,b)=>a.date.split("/").reverse().join("-").localeCompare(b.date.split("/").reverse().join("-")));
-  if(!atletaData.length) return;
-  // usa a última avaliação para o radar
-  const last=atletaData[atletaData.length-1];
-  const resps=Array.from({length:28},(_,i)=>last[`q${i+1}`]??0);
-  const {scores}=calcular(resps);
-  drawRadarChart("longCanvas",scores,480,260);
-}
-
-function drawRadarChart(id,scores,W,H){
-  const canvas=document.getElementById(id);
-  if(!canvas) return;
-  const ctx=canvas.getContext("2d");
-  const cx=W/2, cy=H/2, R=Math.min(W,H)/2-55;
-  ctx.clearRect(0,0,W,H);
-  const n=scores.length;
-  const ang=i=>(Math.PI*2*i/n)-Math.PI/2;
-
-  [25,50,75,100].forEach(pct=>{
-    const r=R*(pct/100);
-    ctx.beginPath();
-    scores.forEach((_,i)=>{ const a=ang(i); i===0?ctx.moveTo(cx+r*Math.cos(a),cy+r*Math.sin(a)):ctx.lineTo(cx+r*Math.cos(a),cy+r*Math.sin(a)); });
-    ctx.closePath(); ctx.strokeStyle="#EEE8DA"; ctx.lineWidth=1; ctx.stroke();
-    ctx.fillStyle="#bbb"; ctx.font="9px sans-serif"; ctx.fillText(pct+"%",cx+4,cy-r+4);
-  });
-
-  scores.forEach((_,i)=>{
-    const a=ang(i);
-    ctx.beginPath(); ctx.moveTo(cx,cy); ctx.lineTo(cx+R*Math.cos(a),cy+R*Math.sin(a));
-    ctx.strokeStyle="#EEE8DA"; ctx.lineWidth=1; ctx.stroke();
-    const dist=R+18, x=cx+dist*Math.cos(a), y=cy+dist*Math.sin(a);
-    const words=scores[i].nome.split("/")[0].split(" ");
-    ctx.fillStyle="#304E38"; ctx.font="bold 9px sans-serif"; ctx.textAlign="center";
-    words.forEach((w,wi)=>ctx.fillText(w,x,y+(wi-(words.length-1)/2)*11));
-    ctx.fillStyle=bc(scores[i].pct); ctx.font="bold 10px sans-serif";
-    ctx.fillText(scores[i].pct+"%",x,y+(words.length/2)*11+11);
-  });
-
-  ctx.beginPath();
-  scores.forEach((s,i)=>{ const a=ang(i),r=R*(s.pct/100); i===0?ctx.moveTo(cx+r*Math.cos(a),cy+r*Math.sin(a)):ctx.lineTo(cx+r*Math.cos(a),cy+r*Math.sin(a)); });
-  ctx.closePath(); ctx.fillStyle="rgba(48,78,56,0.15)"; ctx.fill();
-  ctx.strokeStyle="#304E38"; ctx.lineWidth=2; ctx.stroke();
-  scores.forEach((s,i)=>{ const a=ang(i),r=R*(s.pct/100); ctx.beginPath(); ctx.arc(cx+r*Math.cos(a),cy+r*Math.sin(a),4,0,Math.PI*2); ctx.fillStyle="#304E38"; ctx.fill(); });
 }
 
 function bind(){
@@ -487,18 +488,15 @@ function bind(){
     if(!nm){ errMsg="Por favor, informe o nome."; render(); return; }
     errMsg=""; q=0; respostas=new Array(28).fill(null); view="quiz"; render();
   });
-
   document.querySelectorAll(".scale-btn[data-v]").forEach(b=>b.addEventListener("click",()=>{ respostas[q]=parseInt(b.dataset.v); errMsg=""; render(); }));
-
   document.getElementById("btn-next")?.addEventListener("click",async()=>{
     if(respostas[q]===null){ errMsg="Por favor, selecione uma resposta."; render(); return; }
     if(q<27){ q++; errMsg=""; render(); return; }
     const entry={name:nm.trim(),cat,date:new Date().toLocaleDateString("pt-BR"),time:new Date().toLocaleTimeString("pt-BR",{hour:"2-digit",minute:"2-digit"})};
-    respostas.forEach((r,i)=>entry[`q${i+1}`]=r);
+    respostas.forEach((r,i)=>entry["q"+(i+1)]=r);
     await push(ref(db,"acsi28"),entry);
     view="ok"; render();
   });
-
   document.getElementById("btn-prev")?.addEventListener("click",()=>{ if(q>0){ q--; errMsg=""; render(); } });
   document.getElementById("btn-back")?.addEventListener("click",()=>{
     if(view==="quiz"||view==="ok"){ view="home"; render(); }
@@ -506,21 +504,18 @@ function bind(){
     else if(view==="dash"){ view="home"; render(); }
     else if(view==="senha"){ view="home"; render(); }
   });
-
   document.getElementById("btn-dash")?.addEventListener("click",()=>{ senhaErr=""; view="senha"; render(); });
   document.getElementById("btn-entrar")?.addEventListener("click",()=>{
     const v=document.getElementById("inp-senha")?.value||"";
     if(v===SENHA){ view="dash"; render(); } else { senhaErr="Senha incorreta."; render(); }
   });
   document.getElementById("inp-senha")?.addEventListener("keydown",e=>{ if(e.key==="Enter") document.getElementById("btn-entrar")?.click(); });
-
   document.getElementById("sel-filtro")?.addEventListener("change",e=>{ filtroAtleta=e.target.value; render(); });
   document.getElementById("btn-long")?.addEventListener("click",()=>{ selAtleta=""; view="long"; render(); });
   document.getElementById("sel-atleta")?.addEventListener("change",e=>{ selAtleta=e.target.value; render(); });
   document.getElementById("btn-clear")?.addEventListener("click",async()=>{
     if(confirm("Apagar todas as avaliações? Esta ação não pode ser desfeita.")) await remove(ref(db,"acsi28"));
   });
-
   document.querySelectorAll(".acard[data-key]").forEach(c=>c.addEventListener("click",e=>{
     if(e.target.closest("[data-detail]")) return;
     exp=exp===c.dataset.key?null:c.dataset.key; render();
