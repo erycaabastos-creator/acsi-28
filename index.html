@@ -430,6 +430,7 @@ function htmlDetalhe(){
     </div>
 
     <button class="btn-print" onclick="window.print()">🖨 Imprimir / Salvar PDF</button>
+    <button class="btn-danger" style="width:100%;padding:12px;margin-top:4px;font-size:14px" id="btn-deletar">🗑 Deletar esta avaliação</button>
   </div>`;
 }
 
@@ -521,6 +522,14 @@ function bind(){
     exp=exp===c.dataset.key?null:c.dataset.key; render();
   }));
   document.querySelectorAll("[data-detail]").forEach(b=>b.addEventListener("click",()=>{ exp=b.dataset.detail; view="detalhe"; render(); }));
+  document.getElementById("btn-deletar")?.addEventListener("click",async()=>{
+    const entry=entries.find(e=>e._k===exp);
+    if(!entry) return;
+    if(confirm(`Deletar a avaliação de ${entry.name} (${entry.date})?\n\nSomente esta avaliação será removida. Todo o restante permanece salvo.`)){
+      await remove(ref(db,"acsi28/"+exp));
+      exp=null; view="dash"; render();
+    }
+  });
 }
 
 render();
